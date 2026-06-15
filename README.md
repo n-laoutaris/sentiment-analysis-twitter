@@ -1,26 +1,24 @@
-# Sentiment Analysis Comparison
+# Social Media Sentiment Engines: Lexicon vs. Machine Learning
 
-This project explores different approaches to sentiment analysis, comparing traditional rule-based sentiment analyzers (VADER and TextBlob) with a machine learning model (Logistic Regression using TF-IDF features). The goal was to evaluate each method’s performance and understand their strengths and weaknesses across different types of text data.
+A comparative analysis of natural language processing (NLP) approaches for classifying short-form, noisy social media telemetry (Twitter/X).
 
 ![Positive Sentiment Word Cloud](images/wordcloud.png)
 
-## Project context
+## Objective & Motivation
+In the media intelligence sector, choosing the right sentiment analysis engine is a critical architectural decision. This project evaluates the trade-offs between Traditional Rule-Based Analyzers and a Trained Machine Learning Model.
 
-This work was conducted as a personal submission for the Programming for Data Science course at International Hellenic University. 
+The goal is to determine which engine provides the most reliable classification for unstructured social media text, evaluating how each handles nuance, slang and neutral-class boundaries.
 
-## Project Overview
+## Engineering & Methodology
+* **Custom Telemetry Normalization:** Twitter data is notoriously noisy. Used a custom regex-based text preprocessor. Augmented standard NLTK stopword lexicons with Twitter-specific noise tokens.
+* **EDA:** Conducted exploratory data analysis, including class distributions and lexical frequency mapping.
+* **Model Evaluation:** Compared engines across Accuracy, Precision, Recall and F1-Score. Used various visualizations to identify class-specific failure points.
 
-- Exploratory Data Analysis (EDA) and data preprocessing  
-- Implementation and comparison of multiple sentiment analysis models  
-- Visualization including word clouds and confusion matrices  
-- Evaluation metrics: Accuracy, Precision, Recall, F1-Score  
+## Key Insights
+1. Rule-based analyzers (like VADER) heavily rely on explicit sentiment-bearing words, causing them to frequently misclassify "neutral" text as "positive."
+2. The Logistic Regression model (with TF-IDF features) significantly outperformed the rule-based systems, demonstrating that training on domain-specific n-grams is necessary to capture sarcasm, slang and context in short-form social media posts.
+3. Error analysis revealed that standard `NLTK` stopword lists aggressively stripped negation modifiers (e.g., "not"). This inverted the semantic meaning of phrases (e.g., "not good" -> "good"), causing unanimous false-positives across all models. This proves that for sentiment analysis, preprocessing must preserve structural context rather than blindly pruning common words.
 
 ## Dataset
 
 The dataset is sourced from [Sentiment Analysis Dataset](https://www.kaggle.com/datasets/abhi8923shriv/sentiment-analysis-dataset). 
-
-## Insights
-
-- Rule-based analyzers often misclassify neutral text as positive.
-- Logistic Regression performed better, especially in nuanced or sarcastic contexts.
-- Combining human-readable methods like word clouds with model predictions offered valuable interpretation.
